@@ -1,11 +1,13 @@
 from django.http import JsonResponse
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 from django.shortcuts import render
 
 from mixin import AdminLoginRequiredMixin
 from user.models import Group
 from .form import GroupForm
 
+class GroupIndexView(AdminLoginRequiredMixin,TemplateView):
+    template_name = 'admin/group/group_index.html'
 
 class GroupCreateView(AdminLoginRequiredMixin,View):
     def get(self,request):

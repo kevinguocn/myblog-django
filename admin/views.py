@@ -13,5 +13,3 @@ class AdminIndexView(AdminLoginRequiredMixin,View):
         return  render(request,'admin/index.html')
 
 
-class AdminGroupView(AdminLoginRequiredMixin,TemplateView):
-    template_name = 'admin/group/group_index.html'
