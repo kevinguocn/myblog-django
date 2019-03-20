@@ -7,6 +7,7 @@
 <div class="box box-danger">
     <form action="" class="form-horizontal" id="addForm" method="post">
         {% csrf_token %}
+        <input type="hidden" value="{{ group.id }}" name="id">
         <div class="box-body">
             <fieldset>
                 <legend>
@@ -15,11 +16,11 @@
                 <div class="form-group has-feedback">
                     <label for="" class="col-sm-2 control-label">名称</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" value="{{ group.name }}">
                     </div>
                     <label for="" class="col-sm-2 control-label">描述</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" name="desc">
+                        <input type="text" class="form-control" name="desc" value="{{ group.desc }}">
                     </div>
 
                 </div>
@@ -29,7 +30,7 @@
         <div class="box-footer">
             <div class="row span7 text-center">
                 <button type="reset" class="btn btn-default margin-right">重置</button>
-                <button type="button" class="btn btn-default margin-right" id="submit">提交</button>
+                <button type="button" class="btn btn-default margin-right" id="btnSave">提交</button>
             </div>
         </div>
     </form>
@@ -37,23 +38,34 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
-    $("#submit").click(function () {
-        var form_data = $("#addForm").serialize();
-        $.ajax({
-            type:'post',
-            data:form_data,
-            cache:false,
-            success:function (res) {
-                if(res.result){
-                    layer.alert('保存成功',{icon:1},function (index) {
-                        parent.layer.colseAll();
-                    })
-                }else{
-                    layer.alert('数据保存失败',{icon:5});
+
+        $("#btnSave").click(function () {
+            var data = $("#addForm").serialize();
+            $.ajax({
+                type: $("#addForm").attr('method'),
+                url: "{% url 'admin:group_create' %}"+"?id=",
+                data: data,
+                cache: false,
+                success: function (msg) {
+                    if (msg.result) {
+                        layer.alert('数据保存成功！', {icon: 1}, function (index) {
+                            parent.layer.closeAll(); //关闭所有弹窗
+                        });
+                    } else {
+                        layer.alert('数据保存失败', {icon: 5});
+                        //$('errorMessage').html(msg.message)
+                    }
+                    return;
                 }
-                return ;
-            }
+            });
         });
-    });
+
+
+        /*点取消刷新新页面*/
+        $("#btnCancel").click(function () {
+            window.location.reload();
+
+        });
+
     </script>
 {% endblock %}
