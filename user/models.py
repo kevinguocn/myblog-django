@@ -24,13 +24,18 @@ class Menu(models.Model):
     def get_menu_by_request_url(cls, url):
         return dict(menu=Menu.objects.get(url=url))
 
+class Role(models.Model):
+    name = models.CharField(max_length=20,verbose_name='角色名')
+    permissions = models.ManyToManyField(Menu, blank=True, verbose_name="URL授权")
+    desc = models.CharField(max_length=20,verbose_name='角色描述')
+    class Meta:
+        db_table='tb_role'
 
 class Group(models.Model):
     '''
     用户组
     '''
     name = models.CharField(max_length=120,unique=True,verbose_name='用户组')
-    permissions = models.ManyToManyField(Menu, blank=True, verbose_name="URL授权")
     desc = models.CharField(max_length=50, blank=True, null=True, verbose_name="描述")
 
     class Meta:

@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import View
 from admin.form import LoginForm
 
-
+class IndexView(View):
+    def get(self,request):
+        return HttpResponse('首页')
 class LoginView(View):
     def get(self,request):
         redirect_to = request.GET.get('next', '/')

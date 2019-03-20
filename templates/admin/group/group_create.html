@@ -1,0 +1,59 @@
+{% extends 'admin/base/base-layer.html' %}
+{% load staticfiles %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'js/plugins/layer/skin/layer.css' %}">
+{% endblock %}
+{% block main %}
+<div class="box box-danger">
+    <form action="" class="form-horizontal" id="addForm" method="post">
+        {% csrf_token %}
+        <div class="box-body">
+            <fieldset>
+                <legend>
+                    <h4>用户组添加</h4>
+                </legend>
+                <div class="form-group has-feedback">
+                    <label for="" class="col-sm-2 control-label">名称</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <label for="" class="col-sm-2 control-label">描述</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="desc">
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="box-footer">
+            <div class="row span7 text-center">
+                <button type="reset" class="btn btn-default margin-right">重置</button>
+                <button type="button" class="btn btn-default margin-right" id="submit">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+    $("#submit").click(function () {
+        var form_data = $("#addForm").serialize();
+        $.ajax({
+            type:'post',
+            data:form_data,
+            cache:false,
+            success:function (res) {
+                if(res.result){
+                    layer.alert('保存成功',{icon:1},function (index) {
+                        parent.layer.colseAll();
+                    })
+                }else{
+                    layer.alert('数据保存失败',{icon:5});
+                }
+                return ;
+            }
+        });
+    });
+    </script>
+{% endblock %}
