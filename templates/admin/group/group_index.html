@@ -89,6 +89,8 @@
                                     var ret = "";
                                     var ret = "<button title='详情-编辑' onclick='doUpdate("
                                         + data + ")'><i class='glyphicon glyphicon-pencil'></i></button>";
+                                    ret = ret + "<button title='关联用户' onclick='touser("
+                                        + data + ")'><i class='glyphicon glyphicon-user'></i></button>";
                                     ret = ret + "<button title='删除' onclick='doDelete("
                                         + data + ")'><i class='glyphicon glyphicon-trash'></i></button>";
                                     return ret;
@@ -210,5 +212,19 @@
             });
 
         }
+        //关联用户
+    function touser(id) {
+        layer.open({
+            type:2,
+            title:"关联用户",
+            shadeClose:false,
+            maxmin:true,
+            area:["800px","600px"],
+            content:["{% url 'admin:group_to_user' %}"+"?id="+id,'no'],
+            end:function () {
+                window.location.reload();
+            }
+        })
+    }
     </script>
 {% endblock %}

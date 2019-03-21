@@ -1,0 +1,102 @@
+{% extends 'admin/base/base-layer.html' %}
+{% load staticfiles %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugins/select2/select2.min.css' %}">
+{% endblock %}
+{% block main %}
+    <div class="box box-danger">
+        <form action="" class="form-horizontal" method="post" id="selectUsersForm">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ group.id }}">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label for="" class="control-label">可选用户</label>
+                        <select name="from" id="multiselect" class="form-control" size="18" multiple="multiple">
+                            {% for single in un_added_users %}
+                                <option value="{{ single.id }}">{{ single.nickname }}({{ single.username }})|{{ single.group.name|default_if_none:"未绑定" }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-2">
+                        <br><br><br><br><br><br>
+                        <button type="button" id="multiselect_rightAll" class="btn btn-block"><i
+                                class="glyphicon glyphicon-forward"></i></button>
+                        <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i
+                                class="glyphicon glyphicon-chevron-right"></i></button>
+                        <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i
+                                class="glyphicon glyphicon-chevron-left"></i></button>
+                        <button type="button" id="multiselect_leftAll" class="btn btn-block"><i
+                                class="glyphicon glyphicon-backward"></i></button>
+                    </div>
+                    <div class="col-xs-5">
+                        <label for="" class="control-label">已绑定用户</label>
+                        <select name="to" id="multiselect_to" class="form-control" size="18" multiple="multiple">
+                            {% for single in added_users %}
+                                <option value="{{ single.id }}">{{ single.nickname }}({{ single.username }})</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 margin-top-5">
+                        <p class="text-maroon">
+                            一个用户只能属于一个组
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="row span7 text-center">
+                    <button type="reset" id="btnCancel" class="btn btn-default margin-right">重置</button>
+                    <button type="button" id="btnSave" class="btn btn-default margin-right">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{% static 'plugins/select/multiselect.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            //初始化多选列表
+            $('#multiselect').multiselect({
+                search: {
+                    left: '<input type="text" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" class="form-control" placeholder="Search..." />',
+                },
+                fireSearch: function (value) {
+                    return value.length > 3;
+                }
+            });
+        });
+        $("#btnSave").click(function () {
+            $('#multiselect_to option').prop('selected', true);
+            var data = $("#selectUsersForm").serialize();
+            console.log(data);
+            $.ajax({
+                type: 'post',
+                url: "{% url 'admin:group_to_user' %}",
+                data: data,
+                cache: false,
+                success: function (msg) {
+                    if (msg.result) {
+                        layer.alert('操作成功', {icon: 1});
+                    } else {
+                        //alert(msg.message);
+                        layer.alert('操作失败', {icon: 2});
+                    }
+                    return;
+                }
+            });
+        });
+
+        /*点取消刷新新页面*/
+        $("#btnCancel").click(function () {
+            window.location.reload();
+
+        });
+    </script>
+{% endblock %}

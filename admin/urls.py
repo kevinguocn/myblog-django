@@ -8,6 +8,7 @@ urlpatterns=[
     path('basic/group/create/',views_group.GroupCreateView.as_view(), name='group_create'),
     path('basic/group/list/',views_group.GroupListView.as_view(), name='group_list'),
     path('basic/group/delete/',views_group.GroupDeleteView.as_view(), name='group_delete'),
+    path('basic/group/add_user/',views_group.Group2UserView.as_view(), name='group_to_user'),
     #Admin 首页
     path('', views.AdminIndexView.as_view(), name='index')
 ]
