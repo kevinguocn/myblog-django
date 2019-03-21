@@ -13,11 +13,6 @@
             <div class="box box-primary">
                 <div class="box-header">
                     <div class="btn-group pull-left">
-                        <button type="button" id="btnCreate" class="btn btn-default"><i
-                                class="glyphicon glyphicon-plus"></i>新增
-                        </button>
-                    </div>
-                    <div class="btn-group pull-left">
                         &nbsp;
                     </div>
                     <div class="btn-group pull-left">
@@ -25,26 +20,60 @@
                                 class="glyphicon glyphicon-trash"></i>删除
                         </button>
                     </div>
-                </div>
-                <div class="box-body">
-                    <table id="dtbList" class="display" cellspacing="0" width="100%">
-                        <thead>
-                        <tr valign="middle">
-                            <th><input type="checkbox" id="checkAll"></th>
-                            <th>ID</th>
-                            <th>组名</th>
-                            <th>描述</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <div class="btn-group pull-left">
+                        &nbsp;
+                    </div>
+                    <div class="btn-group pull-left">
+                        <button id="btnActive" class="btn btn-default" type="button"><i
+                                class="glyphicon glyphicon-ok-sign"></i>激活
+                        </button>
+                    </div>
+                    <div class="btn-group pull-left">
+                        &nbsp;
+                    </div>
+                    <div class="btn-group pull-left">
+                        <button id="btnActive" class="btn btn-default" type="button"><i
+                                class="glyphicon glyphicon-remove-sign"></i>禁用
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label>用户状态：</label>
+                                <select id="select" name="select" class="form-control">
+                                    <option style='text-align:center' value=''>-----所有-----</option>
+                                    <option value="True">启用</option>
+                                    <option value="False">禁用</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div class="box-body">
+                <table id="dtbList" class="display" cellspacing="0" width="100%">
+                    <thead>
+                    <tr valign="middle">
+                        <th><input type="checkbox" id="checkAll"></th>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>昵称</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                        <th>组别</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
         </div>
     </section>
+
 
     <!-- /.content -->
 
@@ -65,21 +94,44 @@
                     DATATABLES_CONSTANT.DATA_TABLES.DEFAULT_OPTION,
                     {
                         ajax: {
-                            "url": "{% url 'admin:group_list' %}",
+                            "url": "{% url 'admin:user_list' %}",
                         },
                         columns: [
                             DATATABLES_CONSTANT.DATA_TABLES.COLUMN.CHECKBOX,
                             {
                                 data: "id",
+                                width: "5%",
+                            },
+                            {
+                                data: "username",
+                                width: "15%",
+                            },
+                            {
+                                data: "nickname",
+                                width: "15%"
+                            },
+                            {
+                                data: "telephone",
+                                width: "20%"
+                            },
+                            {   data:"email",
+                                width:"10%"
+                            },
+
+                            {
+                                data: "group__name",
+                                width: "10%"
+                            },
+                            {
+                                data: "is_active",
                                 width: "10%",
-                            },
-                            {
-                                data: "name",
-                                width: "20",
-                            },
-                            {
-                                data: "desc",
-                                width: "40"
+                                render: function (data, type, row, meta) {
+                                    if (data === true) {
+                                        return "<i class='glyphicon glyphicon-ok'></i>"
+                                    } else {
+                                        return "<i class='glyphicon glyphicon-remove'></i>"
+                                    }
+                                }
                             },
                             {
                                 data: "id",
@@ -168,6 +220,7 @@
                 }
             });
         });
+
         //删除单个数据
         function doDelete(id) {
             layer.alert('确定删除吗？', {
@@ -197,6 +250,7 @@
             });
 
         }
+
         //更新数据
         function doUpdate(id) {
             layer.open({
@@ -212,19 +266,20 @@
             });
 
         }
+
         //关联用户
-    function touser(id) {
-        layer.open({
-            type:2,
-            title:"关联用户",
-            shadeClose:false,
-            maxmin:true,
-            area:["800px","600px"],
-            content:["{% url 'admin:group_to_user' %}"+"?id="+id,'no'],
-            end:function () {
-                window.location.reload();
-            }
-        })
-    }
+        function touser(id) {
+            layer.open({
+                type: 2,
+                title: "关联用户",
+                shadeClose: false,
+                maxmin: true,
+                area: ["800px", "600px"],
+                content: ["{% url 'admin:group_to_user' %}" + "?id=" + id, 'no'],
+                end: function () {
+                    window.location.reload();
+                }
+            })
+        }
     </script>
 {% endblock %}

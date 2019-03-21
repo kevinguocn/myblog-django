@@ -50,7 +50,7 @@ var DATATABLES_CONSTANT = {
                 className: "td-checkbox",  
                 orderable : false,  
                 bSortable : false,  
-                width:"30px",
+                width:"5%",
                 data : "id",  
                 render : function(data, type, row, meta) {  
                     var content = '<input type="checkbox" name="checkList" class="group-checkable" value="' + data + '" />';                       
