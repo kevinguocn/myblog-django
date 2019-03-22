@@ -60,7 +60,7 @@
                                 <!-- The user image in the navbar-->
                                 <img src="/media/{{ request.user.image }}" class="user-image" alt="用户头像">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">{{ request.user.name }}</span>
+                                <span class="hidden-xs">{{ request.user.nickname }}({{ request.user.username }})</span>
                                 <!--上面 request.user 会返回用户姓名，user.models.UserProfile.Meta定义该值-->
 
                             </a>
@@ -70,8 +70,9 @@
                                 <img src="/media/{{ request.user.image }}" class="img-circle" alt="User Image">
 
                                 <p>
-                                    {{ request.user.name }} - {{ request.user.department.title }}
+                                    {{ request.user.nickname }}({{ request.user.username }})
                                     <small>{{ request.user.email }}</small>
+                                    <small>{{ request.user.group.name|default_if_none:"未分组" }}</small>
                                 </p>
                             </li>
                         {% endif %}

@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views,views_group
+
+from . import views,views_group,views_user
 app_name = 'admin'
 
 urlpatterns=[
@@ -12,6 +13,12 @@ urlpatterns=[
     #用户管理
     path('basic/user/',views_user.UserIndexView.as_view(),name='user_index'),
     path('basic/user/list/',views_user.UserListView.as_view(),name='user_list'),
+    path('basic/user/create/',views_user.UserCreateView.as_view(),name='user_create'),
+    path('basic/user/detail/',views_user.UserDetailView.as_view(),name='user_detail'),
+    path('basic/user/update/',views_user.UserUpdateView.as_view(),name='user_update'),
+    path('basic/user/redopwd/',views_user.UserPasswordRedoView.as_view(),name='user_redopassword'),
+    path('basic/user/active/',views_user.UserActiveView.as_view(),name='user_active'),
+    path('basic/user/unable/',views_user.UserUnableView.as_view(),name='user_unable'),
     #Admin 首页
     path('', views.AdminIndexView.as_view(), name='index')
 ]
