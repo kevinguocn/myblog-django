@@ -6,8 +6,64 @@
 
     <!-- Main content -->
   <section class="content">
+  <div class="row">
+      <!--注册用户-->
+      <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{ user_num }}</h3>
 
-    欢迎使用后台管理系统
+              <p>注册用户</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-user"></i>
+            </div>
+            <a href="{% url 'admin:user_index' %}" class="small-box-footer">查看用户列表<i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+      <!--博文数量-->
+      <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-blue">
+            <div class="inner">
+              <h3>{{ user_num }}</h3>
+
+              <p>博文数量</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-newspaper-o"></i>
+            </div>
+            <a href="{% url 'admin:user_index' %}" class="small-box-footer">查看博文列表 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+      <!--文件数量-->
+      <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>{{ user_num }}</h3>
+
+              <p>文件数量</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-file-o"></i>
+            </div>
+            <a href="{% url 'admin:user_index' %}" class="small-box-footer">查看文件列表 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+      <!--用户-->
+      <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{ user_num }}</h3>
+
+              <p>注册用户</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="{% url 'admin:user_index' %}" class="small-box-footer">查看用户列表 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+  </div>
   </section>
 
     <!-- /.content -->

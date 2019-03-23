@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.generic.base import View, TemplateView
 from django.shortcuts import render, get_object_or_404
 
-from mixin import AdminLoginRequiredMixin
+from mixin import AdminLoginRequiredMixin,BreadMixin
 from user.models import Group
 from .form import GroupForm
 
@@ -11,7 +11,7 @@ User = get_user_model()
 
 
 
-class GroupIndexView(AdminLoginRequiredMixin,TemplateView):
+class GroupIndexView(AdminLoginRequiredMixin,BreadMixin,TemplateView):
     template_name = 'admin/group/group_index.html'
 
 class GroupCreateView(AdminLoginRequiredMixin,View):

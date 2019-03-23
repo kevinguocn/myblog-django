@@ -1,9 +1,22 @@
 from django.urls import path
 
-from . import views,views_group,views_user
+from . import views,views_group,views_user,views_menu,views_role
 app_name = 'admin'
 
 urlpatterns=[
+    #角色管理
+    path("basic/role/",views_role.RoleIndexView.as_view(),name="role_index"),
+    path("basic/role/create/",views_role.RoleCreateView.as_view(),name="role_create"),
+    path("basic/role/list/",views_role.RoleListView.as_view(),name="role_list"),
+    path("basic/role/update/",views_role.RoleUpdateView.as_view(),name="role_update"),
+    path("basic/role/delete/",views_role.RoleDeleteView.as_view(),name="role_delete"),
+    path("basic/role/role2user/",views_role.Role2User.as_view(),name="role_2user"),
+    path("basic/role/role2menu/",views_role.Role2MenuView.as_view(),name="role_2menu"),
+    path("basic/role/role2menu_list/",views_role.Role2MenuListView.as_view(),name="role_2menu_list"),
+    #菜单管理
+    path('basic/menu/create/',views_menu.MenuCreateView.as_view(),name='menu_create'),
+    path('basic/menu/update/',views_menu.MenuUpdateView.as_view(),name='menu_update'),
+    path('basic/menu/',views_menu.MenuListView.as_view(),name='menu_list'),
     #组管理
     path('basic/group/',views_group.GroupIndexView.as_view(),name='group_index'),
     path('basic/group/create/',views_group.GroupCreateView.as_view(), name='group_create'),

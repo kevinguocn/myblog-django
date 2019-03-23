@@ -3,7 +3,7 @@ import re
 from django import forms
 from django.contrib.auth import get_user_model
 
-from user.models import Group
+from user.models import Group,Menu,Role
 User=get_user_model()
 
 
@@ -43,3 +43,17 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields=['username','nickname','email','telephone','group','gender','roles','birthday','is_active']
+
+
+class MenuForm(forms.ModelForm):
+
+    class Meta:
+        model=Menu
+        fields="__all__"
+
+
+class RoleForm(forms.ModelForm):
+
+    class Meta:
+        model=Role
+        fields="__all__"

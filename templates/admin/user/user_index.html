@@ -36,6 +36,19 @@
                     <div class="btn-group pull-right">
                         <form class="form-inline">
                             <div class="form-group">
+                                <label>组别</label>
+                                <select id="selectGroup" name="select" class="form-control">
+                                    <option style='text-align:center' value=''>-----所有-----</option>
+                                    {% for group in groups %}
+                                    <option value="{{ group.id }}">{{ group.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <form class="form-inline">
+                            <div class="form-group">
                                 <label>用户状态：</label>
                                 <select id="select" name="select" class="form-control">
                                     <option style='text-align:center' value=''>-----所有-----</option>
@@ -82,6 +95,8 @@
     <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'plugins/datatables/dataTables.const.js' %}"></script>
     <script>
+            $("#ADMIN-BASIC").addClass('active');
+        $("#ADMIN-BASIC-USER").addClass('active');
         var oDatatable = null;
         $(function () {
             oDatatable = initTable();
@@ -93,7 +108,8 @@
                         ajax: {
                             "url": "{% url 'admin:user_list' %}",
                             "data":function (d) {
-                                d.select = $("#select").val()
+                                d.select = $("#select").val();
+                                d.group = $("#selectGroup").val();
                             }
                         },
                         columns: [
@@ -343,6 +359,10 @@
         }
         //监控状态
         $("#select").change(function () {
+            oDatatable.ajax.reload();
+        });
+        //监控组别状态
+        $("#selectGroup").change(function () {
             oDatatable.ajax.reload();
         });
     </script>

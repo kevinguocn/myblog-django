@@ -80,8 +80,7 @@
                         <div class="col-sm-6">
                             {% for role in roles %}
                                 <label for="" class="control-label">
-                                    <input type="checkbox" class="minimal" name="roles" value="{{ role.id }}"
-                                           {% if role in update_user.roles %}checked{% endif %}>
+                                    <input type="checkbox" class="minimal" name="roles" value="{{ role.id }}" {% if role in update_user_roles %}checked{% endif %} />
                                     {{ role.name }}
                                 </label>
                             {% endfor %}

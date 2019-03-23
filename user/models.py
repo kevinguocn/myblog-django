@@ -11,6 +11,7 @@ class Menu(models.Model):
     icon = models.CharField(max_length=50, null=True, blank=True, verbose_name="图标")
     code = models.CharField(max_length=50, null=True, blank=True, verbose_name="编码")
     url = models.CharField(max_length=128, unique=True, null=True, blank=True)
+    number = models.FloatField(null=True, blank=True, verbose_name="编号")
 
     def __str__(self):
         return self.name
@@ -19,10 +20,14 @@ class Menu(models.Model):
         db_table='tb_menu'
         verbose_name = '菜单'
         verbose_name_plural = verbose_name
+        ordering=['number']
 
     @classmethod
     def get_menu_by_request_url(cls, url):
-        return dict(menu=Menu.objects.get(url=url))
+        try:
+            return dict(menu=Menu.objects.get(url=url))
+        except:
+            return None
 
 class Role(models.Model):
     name = models.CharField(max_length=20,verbose_name='角色名')
@@ -30,6 +35,9 @@ class Role(models.Model):
     desc = models.CharField(max_length=20,verbose_name='角色描述')
     class Meta:
         db_table='tb_role'
+
+    def __str__(self):
+        return self.name
 
 class Group(models.Model):
     '''

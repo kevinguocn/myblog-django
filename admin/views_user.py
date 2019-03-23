@@ -9,12 +9,13 @@ from django.views.generic.base import View,TemplateView
 
 from user.models import Role, Group
 from .form import UserForm,UserUpdateForm
-
+from mixin import AdminLoginRequiredMixin, BreadMixin
 User = get_user_model()
 
-from mixin import AdminLoginRequiredMixin
-class UserIndexView(AdminLoginRequiredMixin,TemplateView):
+class UserIndexView(AdminLoginRequiredMixin,BreadMixin,TemplateView):
     template_name = 'admin/user/user_index.html'
+    groups = Group.objects.all()
+    extra_context = {"groups":groups}
 
 
 class UserListView(AdminLoginRequiredMixin,View):
@@ -23,6 +24,8 @@ class UserListView(AdminLoginRequiredMixin,View):
         filters = dict()
         if 'select' in request.GET and request.GET['select']:
             filters['is_active'] =request.GET['select']
+        if 'group' in request.GET and request.GET['group']:
+            filters['group'] = request.GET['group']
         ret = dict(data=list(User.objects.filter(**filters).values(*fields)))
         return JsonResponse(ret)
 
@@ -31,8 +34,8 @@ class UserCreateView(AdminLoginRequiredMixin,View):
         roles = Role.objects.values()
         groups = Group.objects.values()
         ret = dict(
-            roles = roles,
-            groups = groups
+            roles=roles,
+            groups=groups
         )
         return render(request,'admin/user/user_create.html',ret)
 
@@ -67,6 +70,7 @@ class UserDetailView(AdminLoginRequiredMixin,View):
          if 'id' in request.GET and request.GET['id']:
              user = get_object_or_404(User, pk=int(request.GET['id']))
              ret['update_user'] = user
+             ret['update_user_roles'] = user.roles.values()
              return render(request, 'admin/user/user_detail.html', ret)
 
 class UserUpdateView(AdminLoginRequiredMixin,View):
