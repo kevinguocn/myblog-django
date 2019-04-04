@@ -2,7 +2,7 @@ from django.views.generic.base import View, TemplateView
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
-from mixin import AdminLoginRequiredMixin, BreadMixin
+from utils.mixin import AdminLoginRequiredMixin, BreadMixin
 from user.models import Menu
 from admin.form import MenuForm
 
@@ -21,7 +21,7 @@ class MenuCreateView(AdminLoginRequiredMixin, View):
             ret['result']=True
         return JsonResponse(ret)
 
-class MenuListView(AdminLoginRequiredMixin,BreadMixin,TemplateView):
+class MenuView(AdminLoginRequiredMixin,BreadMixin,TemplateView):
     template_name = 'admin/menu/menu.html'
     extra_context = dict(menu_all=Menu.objects.all())
 
@@ -46,3 +46,10 @@ class MenuUpdateView(AdminLoginRequiredMixin,View):
                 ret['result']=True
         return JsonResponse(ret)
 
+
+
+class MenuListView(AdminLoginRequiredMixin,View):
+    def get(self,request):
+        fields = ['id','name','icon','url','code','parent','number']
+        ret=dict(data=list(Menu.objects.values(*fields)))
+        return JsonResponse(ret)

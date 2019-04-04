@@ -1,0 +1,107 @@
+{% extends 'admin/base/base-left.html' %}
+{% load staticfiles %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'js/plugins/layer/skin/layer.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="box box-danger">
+            <form action="" class="form-horizontal" method="post" id="addForm">
+                {% csrf_token %}
+                <div class="box-body">
+                    <fieldset>
+                        <legend>
+                            <h3>添加博文</h3>
+                        </legend>
+                    </fieldset>
+                    <div class="form-group has-feedback" id="title_div">
+                        <label for="" class="col-sm-2 control-label">标题</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="title" maxlength="20"
+                                   placeholder="文章标题不超过20个字符"/>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" id="tag_div">
+                        <label for="" class="col-sm-2 control-label">标签</label>
+                        <div class="col-sm-3">
+                            <select name="tag" class="form-control">
+                                <option value="0">---分类---</option>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" id="content_div">
+                        <label for="" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8" id="edtior">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row span7 text-center">
+                        <button type="reset" class="btn btn-default margin-right">重置</button>
+                        <button type="button" class="btn btn-default margin-right" id="btnSave">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script src="{% static 'plugins/wangEditor/wangEditor.js' %}"></script>
+        <script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+            <script type="text/javascript">
+        $("#ADMIN-BLOG").addClass('active');
+        $("#ADMIN-BLOG-BLOG-CREATE").addClass('active');
+
+    </script>
+
+    <script>
+        var E = window.wangEditor;
+        var editor2 = new E('#edtior');
+        editor2.create();
+        $("#btnSave").click(function () {
+            $(this).attr('disabled', true);
+            var data;
+            var content;
+            content = editor2.txt.html();
+            var form = $("#addForm");
+            data = form.serialize();
+            data = data + "&content=" + content;
+            //判断如果tag没有填写，内容为空，标题为空，弹出不可提交
+                $.ajax({
+                    method: $("#addForm").attr('method'),
+                    url: "{% url 'admin:blog_create' %}",
+                    cache: false,
+                    data: data,
+                    success: function (res) {
+                        if (res.result) {
+                            layer.alert('新增成功！', {
+                            title: '新增成功'
+                            , icon: 6 //0:感叹号 1：对号 2：差号 3：问号 4：小锁 5：哭脸 6：笑脸
+                            , time: 0 //不自动关闭
+                            , btn: ['YES', 'NO']
+                            , yes: function (index) {
+                                window.location.href = "{% url 'admin:blog_index' %}";
+                            }
+                        });
+                        } else {
+                            if(res.msg.title){
+                                $("#title_div").addClass("has-error");
+                            }
+                            if(res.msg.tag){
+                                $("#tag_div").addClass("has-error");
+                            }
+                            $(this).attr('disable', false);
+                        }
+                    },
+                    error: function (res) {
+                        $(this).attr('disable', false);
+                    }
+                });
+            });
+    </script>
+{% endblock %}

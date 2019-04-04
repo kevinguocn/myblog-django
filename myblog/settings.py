@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'myblog.base_context.side_context',
             ],
         },
     },
@@ -141,6 +142,6 @@ SAFE_URL=[
     r'^$',
     '/logout/',
     '/login/',
-    MEDIA_URL,
-    # STATIC_URL,
+    STATIC_URL,
+    MEDIA_URL
 ]

@@ -3,6 +3,7 @@ import re
 from django import forms
 from django.contrib.auth import get_user_model
 
+from blog.models import Blog
 from user.models import Group,Menu,Role
 User=get_user_model()
 
@@ -57,3 +58,15 @@ class RoleForm(forms.ModelForm):
     class Meta:
         model=Role
         fields="__all__"
+
+
+class BlogForm(forms.ModelForm):
+
+    class Meta:
+        model = Blog
+        fields=["title","tag","content"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get("title") is None:
+            raise forms.ValidationError("标题不可为空")

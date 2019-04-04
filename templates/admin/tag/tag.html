@@ -1,0 +1,154 @@
+{% extends "admin/base/base-left.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'js/plugins/layer/skin/layer.css' %}">
+    <!-- iCheck for checkboxes and radio inputs -->
+{% endblock %}
+
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+        <div id="devlist">
+            <div class="box box-primary" id="liebiao">
+                <div class="box-header">
+                    <div class="btn-group pull-left">
+                        <button type="button" id="btnRefresh" class="btn btn-default">
+                            <i class="glyphicon glyphicon-repeat"></i>刷新
+                        </button>
+                    </div>
+                    <div class="btn-group pull-left">&nbsp</div>
+                    <div class="btn-group pull-left">
+                        <button type="button" id="btnCreate" class="btn btn-default">
+                            <i class="glyphicon glyphicon-plus"></i>新增
+                        </button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">博客分类管理</h3>
+
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right"
+                                       placeholder="快速查找">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover text-center">
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>名字</th>
+                                <th>下属博文</th>
+                                <th>操作</th>
+
+                            </tr>
+
+
+                            {% for tag in tags %}
+                                <tr>
+                                    <td>{{ tag.id }}</td>
+                                    <td>{{ tag.name }}</td>
+                                    <td>博文</td>
+                                    <td>
+                                        <button class="fa fa-check-square-o" onclick="doUpdate({{ tag.id }})"
+                                                title="更新"></button>
+                                        <button class="fa fa-trash-o" onclick="doDelete({{ tag.id }})"
+                                                title="删除"></button>
+
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- /.content -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+    <!-- iCheck 1.0.1 -->
+    <script type="text/javascript">
+        $("#ADMIN-BLOG").addClass('active');
+        $("#ADMIN-BLOG-TAG").addClass('active');
+
+    </script>
+
+    <script type="text/javascript">
+        // 后面需要新增加的方法和函数都写在本行下面
+        $("#btnRefresh").click(function () {
+            window.location.reload();
+        });
+
+        $("#btnCreate").click(function () {
+            layer.open({
+                type: 2,
+                title: '新增',
+                shadeClose: false,
+                maxmin: true,
+                area: ['800px', '400px'],
+                content: "{% url 'admin:tag_create' %}",
+                end: function () {
+                    //关闭时做的事情
+                    window.location.reload();
+                }
+            });
+        });
+
+        function doUpdate(id) {
+            layer.open({
+                type: 2,
+                title: '编辑',
+                shadeClose: false,
+                maxmin: true,
+                area: ['800px', '400px'],
+                content: ["{% url 'admin:tag_update' %}" + '?id=' + id, 'no'],
+                end: function () {
+                    //关闭时做的事情
+                    window.location.reload();
+                }
+            });
+        }
+
+        function doDelete(id) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'admin:tag_delete' %}",
+                data: {
+                    "id": id,
+                    "csrfmiddlewaretoken": "{{ csrf_token }}"
+                },
+                success: function (res) {
+                    if (res.result) {
+                        window.location.reload();
+
+                    } else {
+                        layer.alert("删除失败", {"icon": 2});
+                    }
+                },
+                error: function (res) {
+                    layer.alert("服务器超时", {"icon": 2})
+                }
+            })
+        }
+
+    </script>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.generic.base import View, TemplateView
 from django.shortcuts import render, get_object_or_404
 
-from mixin import AdminLoginRequiredMixin,BreadMixin
+from utils.mixin import AdminLoginRequiredMixin,BreadMixin
 from user.models import Group
 from .form import GroupForm
 

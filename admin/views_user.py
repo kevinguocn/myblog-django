@@ -3,13 +3,12 @@ import re
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
-from django.urls import path
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View,TemplateView
 
 from user.models import Role, Group
 from .form import UserForm,UserUpdateForm
-from mixin import AdminLoginRequiredMixin, BreadMixin
+from utils.mixin import AdminLoginRequiredMixin, BreadMixin
 User = get_user_model()
 
 class UserIndexView(AdminLoginRequiredMixin,BreadMixin,TemplateView):

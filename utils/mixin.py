@@ -15,7 +15,6 @@ class AdminLoginRequiredMixin(object):
 class BreadMixin(object):
     def get_context_data(self,**kwargs):
         menu =Menu.get_menu_by_request_url(url=self.request.path_info)
-        print(menu)
         if menu is not None:
             kwargs.update(menu)
         return super().get_context_data(**kwargs)

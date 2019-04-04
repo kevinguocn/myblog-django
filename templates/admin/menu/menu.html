@@ -31,6 +31,7 @@
                         <tr valign="middle">
                             <th><input type="checkbox" id="checkAll"></th>
                             <th>ID</th>
+                            <th>编号</th>
                             <th>名称</th>
                             <th>代码</th>
                             <th>URL</th>
@@ -61,28 +62,10 @@
     <script type="text/javascript">
             $("#ADMIN-BASIC").addClass('active');
         $("#ADMIN-BASIC-MENU").addClass('active');
-        $(function () {
-            $('#SYSTEM-RBAC').addClass('active');
-            $('#SYSTEM-RBAC-MENU').addClass('active');
-
-        });
     </script>
 
     <script type="text/javascript">
         var oDataTable = null;
-        var data = [
-            {% for menu in menu_all %}
-            {
-                "id": "{{ menu.id }}",
-                "name": "{{ menu.name }}",
-                "code": "{{ menu.code }}",
-                "url":  "{{ menu.url | default_if_none:'' }}",
-                "icon": "{{ menu.icon | default_if_none:'' }}",
-                "parent": "{{ menu.parent.name }}"
-            },
-            {% endfor %}
-        ];
-
         $(function () {
             oDataTable = initTable();
 
@@ -90,12 +73,18 @@
                 var oTable = $('#dtbList').DataTable($.extend(true, {},
                     DATATABLES_CONSTANT.DATA_TABLES.DEFAULT_OPTION,
                     {
-                        data: data,
+                        ajax: {
+                            "url": "{% url 'admin:menu_list' %}",
+                        },
                         columns: [
                             DATATABLES_CONSTANT.DATA_TABLES.COLUMN.CHECKBOX,
                             {
                                 data: "id",
                                 width: "5%",
+                            },
+                            {
+                                data:"number",
+                                width:"5%"
                             },
                             {
                                 data: "name",

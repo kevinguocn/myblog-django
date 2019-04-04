@@ -3,10 +3,23 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import View
 from admin.form import LoginForm
+from admin.models import Banner
+from blog.models import Blog
+
+from utils.index import get_top_blog
 
 class IndexView(View):
     def get(self,request):
-        return HttpResponse('首页')
+        new_blogs = Blog.objects.all()[:5]
+        banners = Banner.objects.all()[:4]
+
+        context = dict(new_blogs=new_blogs,
+                       banners=banners,
+                       banners_num = range(len(banners)),
+                       top_blog = get_top_blog())
+        return render(request,'index.html',context)
+
+
 class LoginView(View):
     def get(self,request):
         redirect_to = request.GET.get('next', '/')
@@ -39,5 +52,6 @@ class LoginView(View):
 
 class LogoutView(View):
     def get(self,request):
+        redirect_to = request.GET.get('next','/')
         logout(request)
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(redirect_to)

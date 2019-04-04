@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View, TemplateView
 
-from mixin import AdminLoginRequiredMixin, BreadMixin
+from utils.mixin import AdminLoginRequiredMixin, BreadMixin
 from user.models import Role, Menu
 from .form import RoleForm
 

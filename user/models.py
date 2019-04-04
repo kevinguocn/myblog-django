@@ -75,3 +75,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def has_per_in_admin(self):
+        return True

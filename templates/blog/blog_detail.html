@@ -1,0 +1,29 @@
+{% extends 'base/base-side.html' %}
+{% load staticfiles %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'blog/article_detail.css'%}">
+{% endblock %}
+
+{% block left %}
+<div class="col-lg-9 col-md-9 w_main_left">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h2 class="c_titile">{{ blog.title }}</h2>
+							<p class="box_c"><span class="d_time">发布时间：{{ blog.update_time|date:"Y年m月d日" }}</span><span>编辑：{{ blog.author.nickname }}</span><span>阅读（{{ blog.get_read_num }}）</span></p>
+							<ul class="infos">
+                                {{ blog.content|safe }}
+
+							</ul>
+
+							<div class="nextinfo">
+
+								<p class="last">上一篇：<a href="{% if pre_blog %}{% url 'blog:blog_detail' pre_blog.pk|default:"0" %}{% endif %}">{{ pre_blog.title|default:"没有上篇" }}</a></p>
+								<p class="next">下一篇：<a href="{% if next_blog %}{% url 'blog:blog_detail' next_blog.pk|default:"0" %}{% endif %}">{{ next_blog.title|default:"没有下篇" }}</a></p>
+						    </div>
+
+						</div>
+					</div>
+
+
+				</div>
+{% endblock %}

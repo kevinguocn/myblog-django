@@ -1,0 +1,100 @@
+{% extends 'base/base-side.html' %}
+{% load staticfiles %}
+{% block left %}
+    <div class="col-lg-9 col-md-9 w_main_left">
+        <div class="panel panel-default">
+            <div id="myCarousel" class="carousel slide">
+	<!-- 轮播（Carousel）指标 -->
+	<ol class="carousel-indicators">
+		{% for i in banners_num %}
+<li data-target="#myCarousel" data-slide-to="i" class="active"></li>
+            {% empty %}
+            <li data-target="#myCarousel" data-slide-to="i" class="active"></li>
+		{% endfor %}
+
+	</ol>
+	<!-- 轮播（Carousel）项目 -->
+	<div class="carousel-inner">
+
+		{% for banner in banners %}
+            <div class="item active">
+			<img src="{{ item.img }}" alt="First slide">
+			<div class="carousel-caption">{{ item.title }}</div>
+		</div>
+		{% empty %}
+                        <div class="item active">
+			<img src="/media/image/slide1.jpg" alt="First slide">
+			<div class="carousel-caption">暂无轮播</div>
+		</div>
+		{% endfor %}
+
+	</div>
+	<!-- 轮播（Carousel）导航 -->
+	<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	    <span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	    <span class="sr-only">Next</span>
+	</a>
+</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">最新发布</h3>
+            </div>
+
+            <div class="panel-body">
+                <!--文章列表开始-->
+                <div class="contentList">
+                    <!--循环-->
+                    {% for blog in new_blogs %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="contentleft">
+                                    <h4><a class="title" href="{% url 'blog:blog_detail' blog.pk %}">{{ blog.title }}</a></h4>
+                                    <p><a class="label label-default">{{ blog.tag.name }}</a></p>
+                                    <p>
+                                        <span class="count"><i class="glyphicon glyphicon-user"></i><a href="#">{{ blog.author.nickname }}</a></span>
+                                        <span class="count"><i class="glyphicon glyphicon-eye-open"></i>阅读:{{ blog.get_read_num }}</span>
+                                        <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:2</span>
+                                        <span class="count"><i class="glyphicon glyphicon-time"></i>{{ blog.update_time|date:"Y-m-d" }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+                <!--文章列表结束-->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        var $backToTopEle = $('<a href="javascript:void(0)" class="Hui-iconfont toTop" title="返回顶部" alt="返回顶部" style="display:none">^</a>').appendTo($("body")).click(function () {
+            $("html, body").animate({scrollTop: 0}, 120);
+        });
+        var backToTopFun = function () {
+            var st = $(document).scrollTop(),
+                winh = $(window).height();
+            (st > 0) ? $backToTopEle.show() : $backToTopEle.hide();
+            /*IE6下的定位*/
+            if (!window.XMLHttpRequest) {
+                $backToTopEle.css("top", st + winh - 166);
+            }
+        };
+
+        $(function () {
+            $(window).on("scroll", backToTopFun);
+            backToTopFun();
+        });
+    </script>
+    <script>
+        $("#INDEX").addClass('active')
+    </script>
+{% endblock %}

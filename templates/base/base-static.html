@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}
+
+    {% endblock %}KEVINGUO.CN</title>
+    <!--核心bootstrap css文件-->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/common.css' %}">
+    {% block link %}
+
+    {% endblock %}
+</head>
+<body>
+{% block main %}
+
+{% endblock %}
+<!--核心jq文件-->
+<script src="{% static 'plugins/jQuery/jquery-2.2.3.min.js' %}"></script>
+<!--核心bootstrap jsw文件-->
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'blog/common.js' %}"></script>
+{% block script %}
+
+{% endblock %}
+</body>
+</html>

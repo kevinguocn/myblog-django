@@ -1,0 +1,73 @@
+{% extends 'base/base-header-footer.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="w_container">
+			<div class="container">
+				<div class="row w_main_row">
+                {% block left %}
+
+                {% endblock %}
+
+					<!--右侧开始-->
+					<div class="col-lg-3 col-md-3 w_main_right">
+
+						<div class="panel panel-default sitetip">
+							<a href="javascript:void(0);">
+								<strong>站点公告</strong>
+								<h3 class="title">网站说明</h3>
+								<p class="overView">修炼新的技能，点亮多样人生</p>
+							</a>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">博客分类</h3>
+							</div>
+							<div class="panel-body">
+								<div class="labelList">
+                                    {% for tag in tags %}
+                                    <a class="label label-default" href="{% url 'blog:blog_list' %}?tag={{ tag.id }}">{{ tag.name }}</a>
+                                    {% endfor %}
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">热门点击</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="list-unstyled sidebar">
+                                    {% for item in hot_clicks %}
+                                    <li><a href="{% url 'blog:blog_detail' item.id %}">{{ item.title }}</a></li>
+                                        {% empty %}
+                                        <li>暂无数据</li>
+                                    {% endfor %}
+								</ul>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">友情链接</h3>
+							</div>
+							<div class="panel-body">
+								<div class="newContent">
+									<ul class="list-unstyled sidebar shiplink">
+                                        {% for friendlink in friendlinks %}
+                                        <li><a href="{{ friendlink.url }}">{{ friendlink.name }}</a></li>
+                                            {% empty %}
+                                            <li>申请链接</li>
+                                        {% endfor %}
+
+									</ul>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}

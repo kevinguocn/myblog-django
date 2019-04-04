@@ -1,0 +1,41 @@
+{% extends 'base/base-side.html' %}
+{% load staticfiles %}
+{% block title %}
+{{ tag.name|default:"" }}博客列表
+{% endblock %}
+{% block left %}
+    <div class="col-lg-9 col-md-9 w_main_left">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">博客列表</h3>
+            </div>
+
+            <div class="panel-body">
+                <!--文章列表开始-->
+                <div class="contentList">
+                    <!--循环-->
+                    {% for blog in blogs %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="contentleft">
+                                    <h4><a class="title" href="{% url 'blog:blog_detail' blog.pk %}">{{ blog.title }}</a></h4>
+                                    <p><a class="label label-default">{{ blog.tag.name }}</a></p>
+                                    <p>
+                                        <span class="count"><i class="glyphicon glyphicon-user"></i><a href="#">{{ blog.author.nickname }}</a></span>
+                                        <span class="count"><i class="glyphicon glyphicon-eye-open"></i>阅读:{{ blog.get_read_num }}</span>
+                                        <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:2</span>
+                                        <span class="count"><i class="glyphicon glyphicon-time"></i>{{ blog.update_time|date:"Y-m-d" }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+                <!--文章列表结束-->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

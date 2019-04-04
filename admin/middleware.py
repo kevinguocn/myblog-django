@@ -93,13 +93,18 @@ class RbacMiddleware(MiddlewareMixin):
         if hasattr(request, 'permission_url_list'):
             request_url = request.path_info
             permission_url = request.permission_url_list
-            for url in settings.SAFE_URL:
-                if re.match(url, request_url):
-                    return None
-            if request_url in permission_url:
-                return None
+            if request_url.startswith("/admin/"):
+                for url in settings.SAFE_URL:
+                    print(re.match(url,request_url))
+                    if re.match(url, request_url):
+                        return None
+                    else:
+                        if request_url in permission_url:
+                            return None
+                        else:
+                            if request_url.startswith("/admin/"):
+                                return render(request,'admin/page404.html')
+                            else:
+                                return HttpResponse("404")
             else:
-                if request_url.startswith("/admin/"):
-                    return render(request, 'admin/page404.html')
-                else:
-                    return HttpResponse("404")
+                return None
