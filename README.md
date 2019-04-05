@@ -4,20 +4,27 @@
 使用django快速搭建一个博客系统
 
 #### 软件架构
-软件架构说明
+系统使用Python3.5以上版本，Django2.0以上版本，mysql5.7以上版本开发。
+基于RBAC权限管理模型，根据用户的权限动态生成后台管理菜单。
 
+####已开发功能
+1.后台管理功能
+1.1菜单管理
+1.2用户管理
+1.3角色管理
+1.4用户组管理
+2.博客管理
+2.1博文增删改查
+3.标签管理
+3.1标签的增删改查
 
-#### 安装教程
+#### 待开发模块
 
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
+1. 博文推荐功能
+2. 热门博文功能
+3. 分词搜索功能
+4.个人留言板功能
+5.短博功能
 
 #### 参与贡献
 
@@ -27,11 +34,14 @@
 4. 新建 Pull Request
 
 
-#### 码云特技
+#### 使用以下开源项目
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. 后台管理前端模板使用开源项目AdminLTE
+2.前台模板未找到模板作者，如果侵犯您的权益请联系我
+3.参考RobbieHan基于RBAC权限管理模型的设计
+4.全站基于Bootstrap项目
+
+#### 作者联系方式
+QQ:876798594
+Email:kevinguocn@foxmail.com
+个人网站:http://www.kevinguo.cn/
